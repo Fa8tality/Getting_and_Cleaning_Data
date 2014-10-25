@@ -12,7 +12,9 @@ Here are the data for the project available in the UCI HAR Dataset directory:
 
     https://d396qusza40orc.cloudfront.net/getdata%2Fprojectfiles%2FUCI%20HAR%20Dataset.zip
 
-## run_analysis.R that creates the tidy data set "tidy_measurements.txt"
+## run_analysis.R 
+   creates the tidy data set "tidy_measurements.txt"
+
 The run_analysis.R script is a non-parameter script and does the following: 
   1.  Merges the training and the test sets to create one data set.
   2.  Extracts only the measurements on the mean and standard deviation for each measurement. 
