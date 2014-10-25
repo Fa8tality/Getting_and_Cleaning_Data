@@ -100,3 +100,25 @@ Additional vectors obtained by averaging the signals in a signal window sample. 
 
 The complete list of variables of each feature vector is available in 'features.txt'
 
+##Transformations
+
+Load following test, training, activity labels and features derived from the UCI HAR Datasets using:
+        testSET <- read.table("./UCI HAR Dataset/test/X_test.txt", header = FALSE)
+        testLABELS <- read.table("./UCI HAR Dataset/test/y_test.txt", header = FALSE)
+        testSUBJECT <- read.table("./UCI HAR Dataset/test/subject_test.txt", header = FALSE)
+        trainingSET <- read.table("./UCI HAR Dataset/train/X_train.txt", header = FALSE)
+        trainingLABELS <- read.table("./UCI HAR Dataset/train/y_train.txt", header = FALSE)
+        trainingSUBJECT <- read.table("./UCI HAR Dataset/train/subject_train.txt", header = FALSE)
+        activityLABELS <- read.table("./UCI HAR Dataset/activity_labels.txt", header = FALSE, colClasses =                        "character", col.names = c("Activity_ID", "Activity"))
+        features <- read.table("./UCI HAR Dataset/features.txt", header = FALSE, colClasses = "character")
+
+Merges the training and the test sets to create one data set.
+        w_merged_testSET <- cbind(testSET, testSUBJECT)
+        merged_testSET <- cbind(w_merged_testSET, testLABELS)
+        w_merged_trainingSET <- cbind(trainingSET, trainingSUBJECT)
+        merged_trainingSET <- cbind(w_merged_trainingSET, trainingLABELS)
+        mergedDATA <- rbind(merged_testSET, merged_trainingSET)
+
+
+
+
