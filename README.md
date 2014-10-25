@@ -7,11 +7,12 @@ One of the most exciting areas in all of data science right now is wearable comp
 
     http://archive.ics.uci.edu/ml/datasets/Human+Activity+Recognition+Using+Smartphones
 
+## Dataset
 Here are the data for the project available in the UCI HAR Dataset directory:
 
     https://d396qusza40orc.cloudfront.net/getdata%2Fprojectfiles%2FUCI%20HAR%20Dataset.zip
 
-## run_analysis.R
+## run_analysis.R that creates the tidy data set "tidy_measurements.txt"
 The run_analysis.R script is a non-parameter script and does the following: 
   1.  Merges the training and the test sets to create one data set.
   2.  Extracts only the measurements on the mean and standard deviation for each measurement. 
