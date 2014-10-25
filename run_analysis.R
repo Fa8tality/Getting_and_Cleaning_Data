@@ -87,7 +87,6 @@ mergedDATA_measurements <- mergedDATA_measurements[,-1]
 ### substitute column headers to appropriately label the data set with descriptive variable names.
 ## remove parentheses
 names(mergedDATA_measurements) <- gsub('[-()]', '',names(mergedDATA_measurements))
-features[,2] = gsub('[-()]', '', features[,2]) 
 ## rename mean
 names(mergedDATA_measurements) = gsub('meanX', 'Mean_X', names(mergedDATA_measurements))
 names(mergedDATA_measurements) = gsub('meanY', 'Mean_Y', names(mergedDATA_measurements))
