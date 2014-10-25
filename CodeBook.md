@@ -10,7 +10,7 @@ Here are the data for the project available in the UCI HAR Dataset directory:
     https://d396qusza40orc.cloudfront.net/getdata%2Fprojectfiles%2FUCI%20HAR%20Dataset.zip
 
 The dataset includes the following files:
-=========================================
+
         - 'features_info.txt': Shows information about the variables used on the feature vector.
         - 'features.txt': List of all features.
         - 'activity_labels.txt': Links the class labels with their activity name.
@@ -103,21 +103,53 @@ The complete list of variables of each feature vector is available in 'features.
 ##Transformations
 
 Load following test, training, activity labels and features derived from the UCI HAR Datasets using:
-        testSET <- read.table("./UCI HAR Dataset/test/X_test.txt", header = FALSE)
-        testLABELS <- read.table("./UCI HAR Dataset/test/y_test.txt", header = FALSE)
-        testSUBJECT <- read.table("./UCI HAR Dataset/test/subject_test.txt", header = FALSE)
-        trainingSET <- read.table("./UCI HAR Dataset/train/X_train.txt", header = FALSE)
-        trainingLABELS <- read.table("./UCI HAR Dataset/train/y_train.txt", header = FALSE)
-        trainingSUBJECT <- read.table("./UCI HAR Dataset/train/subject_train.txt", header = FALSE)
-        activityLABELS <- read.table("./UCI HAR Dataset/activity_labels.txt", header = FALSE, colClasses =                        "character", col.names = c("Activity_ID", "Activity"))
-        features <- read.table("./UCI HAR Dataset/features.txt", header = FALSE, colClasses = "character")
+
+    testSET <- read.table("./UCI HAR Dataset/test/X_test.txt", header = FALSE)
+    testLABELS <- read.table("./UCI HAR Dataset/test/y_test.txt", header = FALSE)
+    testSUBJECT <- read.table("./UCI HAR Dataset/test/subject_test.txt", header = FALSE)
+    trainingSET <- read.table("./UCI HAR Dataset/train/X_train.txt", header = FALSE)
+    trainingLABELS <- read.table("./UCI HAR Dataset/train/y_train.txt", header = FALSE)
+    trainingSUBJECT <- read.table("./UCI HAR Dataset/train/subject_train.txt", header = FALSE)
+    activityLABELS <- read.table("./UCI HAR Dataset/activity_labels.txt", header = FALSE, colClasses =                        "character", col.names = c("Activity_ID", "Activity"))
+    features <- read.table("./UCI HAR Dataset/features.txt", header = FALSE, colClasses = "character")
 
 Merges the training and the test sets to create one data set.
-        w_merged_testSET <- cbind(testSET, testSUBJECT)
-        merged_testSET <- cbind(w_merged_testSET, testLABELS)
-        w_merged_trainingSET <- cbind(trainingSET, trainingSUBJECT)
-        merged_trainingSET <- cbind(w_merged_trainingSET, trainingLABELS)
-        mergedDATA <- rbind(merged_testSET, merged_trainingSET)
+
+    w_merged_testSET <- cbind(testSET, testSUBJECT)
+    merged_testSET <- cbind(w_merged_testSET, testLABELS)
+    w_merged_trainingSET <- cbind(trainingSET, trainingSUBJECT)
+    merged_trainingSET <- cbind(w_merged_trainingSET, trainingLABELS)
+    mergedDATA <- rbind(merged_testSET, merged_trainingSET)
+
+Label columns accordingly adding Subject and Activity_ID to the column_headers and appropriately label the data set with descriptive variable names.
+
+    mergedDATA_LABELS <- rbind(rbind(features, c(562, "Subject")), c(563, "Activity_ID"))[,2]
+    names(mergedDATA) <- mergedDATA_LABELS
+    names(mergedDATA_measurements) <- gsub('[-()]', '',names(mergedDATA_measurements))
+    names(mergedDATA_measurements) = gsub('mean', 'Mean', names(mergedDATA_measurements))
+    ...
+    names(mergedDATA_measurements) = gsub('std', 'Std', names(mergedDATA_measurements))
+    ...
+
+Extracts only the measurements on the mean and standard deviation for each measurement.
+
+    mergedDATA_measurements <- mergedDATA[,grepl("mean|std|Subject|Activity_ID", names(mergedDATA))]
+    mergedDATA_measurements <- join(mergedDATA_measurements, activityLABELS, by = "Activity_ID", match = "first")
+    mergedDATA_measurements <- mergedDATA_measurements[,-1]
+
+From the merged data, create a second, independent tidy data set with the average 
+of each variable for each activity and each subject.
+
+    tidyDATA_dt <- data.table(mergedDATA_measurements)
+    tidyDATA <- ddply(tidyDATA_dt, c("Subject","Activity"), numcolwise(mean))
+    write.table(tidyDATA, file="tidy_measurements.txt", sep=",", row.names = FALSE)
+
+
+    
+    
+    
+
+    
 
 
 
